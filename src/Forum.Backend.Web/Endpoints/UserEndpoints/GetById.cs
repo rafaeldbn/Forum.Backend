@@ -1,6 +1,5 @@
 ﻿using Ardalis.ApiEndpoints;
 using Forum.Backend.Core.Entities.UserAggregate;
-using Forum.Backend.Core.Entities.UserAggregate.Specifications;
 using Forum.Backend.SharedKernel.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -20,6 +19,7 @@ namespace Forum.Backend.Web.Endpoints.UserEndpoints
             _repository = repository;
         }
 
+        //[Authorize("Bearer")]
         [HttpGet(GetUserByIdRequest.Route)]
         [SwaggerOperation(
             Summary = "Gets a single User",
@@ -30,8 +30,7 @@ namespace Forum.Backend.Web.Endpoints.UserEndpoints
         public override async Task<ActionResult<GetUserByIdResponse>> HandleAsync([FromRoute] GetUserByIdRequest request,
             CancellationToken cancellationToken)
         {
-            var spec = new UserByIdSpec(request.UserId);
-            var entity = await _repository.GetBySpecAsync(spec, cancellationToken);
+            var entity = await _repository.GetByIdAsync(request.UserId, cancellationToken);
             if (entity == null) return NotFound();
 
             var response = new GetUserByIdResponse

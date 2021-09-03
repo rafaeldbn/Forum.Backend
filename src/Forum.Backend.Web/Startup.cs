@@ -52,6 +52,8 @@ namespace Forum.Backend.Web
                 // optional - default path to view services is /listallservices - recommended to choose your own path
                 config.Path = "/listservices";
             });
+
+            services.ConfigureJwt(Configuration);
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

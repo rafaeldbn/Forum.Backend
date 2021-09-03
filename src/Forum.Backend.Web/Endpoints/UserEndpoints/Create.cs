@@ -1,4 +1,5 @@
 ﻿using Ardalis.ApiEndpoints;
+using Forum.Backend.Core.Exceptions;
 using Forum.Backend.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -28,15 +29,23 @@ namespace Forum.Backend.Web.Endpoints.UserEndpoints
         public override async Task<ActionResult<CreateUserResponse>> HandleAsync(CreateUserRequest request,
             CancellationToken cancellationToken)
         {
-            var user = await _userService.AddNewUserAsync(request.Name, request.Email, request.Password, request.TimeZone, cancellationToken);
 
-            return Ok(new CreateUserResponse
+            try
             {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                TimeZone = user.TimeZone
-            });
+                var user = await _userService.AddNewUserAsync(request.Name, request.Email, request.Password, request.TimeZone, cancellationToken);
+
+                return Ok(new CreateUserResponse
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    TimeZone = user.TimeZone
+                });
+            }
+            catch (DuplicateEmailException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

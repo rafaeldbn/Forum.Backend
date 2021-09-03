@@ -18,13 +18,13 @@ namespace Forum.Backend.FunctionalTests.ApiEndpoints
         }
 
         [Fact]
-        public async Task ReturnsSeedProjectGivenId1()
+        public async Task ReturnsSeedUserGivenId1()
         {
             var result = await _client.GetAndDeserialize<GetUserByIdResponse>(GetUserByIdRequest.BuildRoute(1));
 
             Assert.Equal(1, result.Id);
-            Assert.Equal(SeedData.TestUser.Name, result.Name);
-            Assert.Equal(SeedData.TestUser.Email, result.Email);
+            Assert.Equal(SeedData.TestUserGet.Name, result.Name);
+            Assert.Equal(SeedData.TestUserGet.Email, result.Email);
         }
 
         [Fact]

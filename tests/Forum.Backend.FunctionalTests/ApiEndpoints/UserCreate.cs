@@ -21,7 +21,7 @@ namespace Forum.Backend.FunctionalTests.ApiEndpoints
         [Fact]
         public async Task CreateAndReturnUser()
         {
-            var response = await _client.PostAsJsonAsync("/Users", SeedData.TestUser);
+            var response = await _client.PostAsJsonAsync(CreateUserRequest.Route, SeedData.TestUser);
             response.EnsureSuccessStatusCode();
 
             var stringResponse = await response.Content.ReadAsStringAsync();

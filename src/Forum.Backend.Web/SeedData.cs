@@ -9,6 +9,7 @@ namespace Forum.Backend.Web
 {
     public static class SeedData
     {
+        public static readonly User TestUserGet = new User("Test User get", "testuserget@email.com", "123456", "timezone");
         public static readonly User TestUser = new User("Test User", "testuser@email.com", "123456", "timezone");
 
         public static void Initialize(IServiceProvider serviceProvider)
@@ -29,7 +30,7 @@ namespace Forum.Backend.Web
         }
         public static void PopulateTestData(AppDbContext dbContext)
         {
-            dbContext.Users.Add(TestUser);
+            dbContext.Users.Add(TestUserGet);
 
             dbContext.SaveChanges();
         }

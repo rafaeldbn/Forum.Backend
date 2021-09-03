@@ -3,6 +3,8 @@ using Forum.Backend.Core.Entities.UserAggregate;
 using Forum.Backend.Core.Interfaces;
 using Forum.Backend.Infrastructure.Crypto;
 using Forum.Backend.Infrastructure.Data;
+using Forum.Backend.Infrastructure.Identity;
+using Forum.Backend.Infrastructure.Identity.Interfaces;
 using Forum.Backend.SharedKernel.Interfaces;
 using MediatR;
 using MediatR.Pipeline;
@@ -81,6 +83,9 @@ namespace Forum.Backend.Infrastructure
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<CryptoService>().As<ICryptoService>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<ApplicationSignInManager>().As<IApplicationSignInManager>()
                 .InstancePerLifetimeScope();
         }
 
