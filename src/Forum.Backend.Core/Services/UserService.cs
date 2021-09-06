@@ -41,9 +41,8 @@ namespace Forum.Backend.Core.Services
 
             user.SetPasswordHash(passwordHash, salt);
 
-            await _repository.AddAsync(user, cancellationToken);
-
             user.Events.Add(new NewUserAddedEvent(user));
+            await _repository.AddAsync(user, cancellationToken);
 
             return user;
         }

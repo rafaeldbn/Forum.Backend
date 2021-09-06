@@ -1,6 +1,7 @@
 ﻿using Ardalis.ApiEndpoints;
 using Forum.Backend.Core.Entities.UserAggregate;
 using Forum.Backend.SharedKernel.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Threading;
@@ -19,7 +20,7 @@ namespace Forum.Backend.Web.Endpoints.UserEndpoints
             _repository = repository;
         }
 
-        //[Authorize("Bearer")]
+        [Authorize("Bearer")]
         [HttpGet(GetUserByIdRequest.Route)]
         [SwaggerOperation(
             Summary = "Gets a single User",

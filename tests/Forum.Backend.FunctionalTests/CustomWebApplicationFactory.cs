@@ -2,6 +2,8 @@
 using Forum.Backend.UnitTests;
 using Forum.Backend.Web;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -9,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System;
 using System.Linq;
 
@@ -84,6 +87,19 @@ namespace Forum.Backend.FunctionalTests
                     });
 
                     services.AddScoped<IMediator, NoOpMediator>();
+
+                    services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme, options =>
+                    {
+                        var config = new OpenIdConnectConfiguration()
+                        {
+                            Issuer = MockJwtTokens.Issuer
+                        };
+
+                        options.TokenValidationParameters.ValidateAudience = false;
+
+                        config.SigningKeys.Add(MockJwtTokens.SecurityKey);
+                        options.Configuration = config;
+                    });
                 });
         }
     }
